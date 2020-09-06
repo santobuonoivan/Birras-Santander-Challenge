@@ -17,4 +17,4 @@ COPY . .
 
 EXPOSE $NODE_PORT
 
-CMD ["npm","start"]
+CMD ["npm","run","dev"]

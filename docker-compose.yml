@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  web:
+    container_name: birras_app
+    restart: always
+    build: .
+    ports:
+      - "5001:5001"
+    volumes:
+      - .:/app
+    environment:
+      - NODE_ENV=development
+      - NODE_PORT=5001
+    links:
+      - postgres
+  postgres:
+    container_name: postgres
+    image: "postgres:12.4-alpine"
+    restart: always
+    environment:
+       POSTGRES_PASSWORD: "1234"
+    ports:
+      - "5432:5432"
+

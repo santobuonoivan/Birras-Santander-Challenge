@@ -14,6 +14,7 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 
 # Node
+package-lock.json
 
 # Logs
 logs

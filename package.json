@@ -1,0 +1,19 @@
+{
+  "name": "santander",
+  "version": "1.0.0",
+  "description": "santander challenge",
+  "main": "src/index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ivan Santobuono",
+  "license": "ISC"
+}

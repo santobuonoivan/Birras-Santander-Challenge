@@ -88,7 +88,9 @@ exports.getOneUser = async function(user_id){
 
 exports.getAllUser = async function(){
     try{
-        const result = await users.findAll();
+        const result = await users.findAll({
+            attributes: {exclude: ['password']}
+        });
         return result;
     }catch (e) {
         throw new itemNotFoundException('User not found');

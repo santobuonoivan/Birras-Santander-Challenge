@@ -2,19 +2,19 @@
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('meetups', {
-    'meetups_id': {
+    'meetup_id': {
       type: DataTypes.INTEGER,
       allowNull: false,
       comment: "null",
       primaryKey: true
     },
     'date': {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.STRING,
       allowNull: true,
       comment: "null"
     },
     'time': {
-      type: DataTypes.TIME,
+      type: DataTypes.STRING,
       allowNull: true,
       comment: "null"
     },

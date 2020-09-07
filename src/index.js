@@ -27,11 +27,13 @@ app.use(express.urlencoded({extended:true}));
 app.use(cors());
 
 //Routes files
-const usersRoter = require('./components/users/Routes');
+const usersRouter = require('./components/users/Routes');
+const meetupsRouter = require('./components/meetups/Routes');
 const auth = require('./components/auth/AuthRoutes');
 
 //Routes Urls
-app.use('/users', usersRoter);
+app.use('/users', usersRouter);
+app.use('/meetups', meetupsRouter);
 app.use('/auth',auth);
 
 //Test Conection

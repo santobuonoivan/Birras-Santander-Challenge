@@ -27,6 +27,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: true,
       comment: "null"
+    },
+    'perfil': {
+      type: DataTypes.STRING,
+      allowNull: true,
+      comment: "null"
     }
   }, {
     tableName: 'users'

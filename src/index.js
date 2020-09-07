@@ -27,10 +27,12 @@ app.use(express.urlencoded({extended:true}));
 app.use(cors());
 
 //Routes files
-
+const usersRoter = require('./components/users/Routes');
+const auth = require('./components/auth/AuthRoutes');
 
 //Routes Urls
-
+app.use('/users', usersRoter);
+app.use('/auth',auth);
 
 //Test Conection
 app.get('/', function (req, res) { res.send('Hello Santander Apirest')});

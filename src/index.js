@@ -33,7 +33,7 @@ app.use(cors());
 
 
 //Test Conection
-app.get('/', function (req, res) { res.send('Hello Apirest Template')});
+app.get('/', function (req, res) { res.send('Hello Santander Apirest')});
 
 //Server
 try{

@@ -29,11 +29,13 @@ app.use(cors());
 //Routes files
 const usersRouter = require('./components/users/Routes');
 const meetupsRouter = require('./components/meetups/Routes');
+const guestsRouter = require('./components/guests/Routes');
 const auth = require('./components/auth/AuthRoutes');
 
 //Routes Urls
 app.use('/users', usersRouter);
 app.use('/meetups', meetupsRouter);
+app.use('/guests', guestsRouter);
 app.use('/auth',auth);
 
 //Test Conection

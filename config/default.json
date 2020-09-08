@@ -1,5 +1,6 @@
 {
   "WEATHER_API_KEY": "59ee020710f0bcfb07b99fe2f1ed34ab",
   "URL_BASE_WEATHER": "https://api.openweathermap.org/data/2.5/weather",
+  "URL_BASE_FORECAST" : "https://api.openweathermap.org/data/2.5/forecast",
   "jwtPrivateKey2": "3d84305dd0c72eee74e3e97a863b104c"
 }

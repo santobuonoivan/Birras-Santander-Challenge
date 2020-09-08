@@ -3,6 +3,7 @@
 const { meetups } = require('../../database/db.postgres.config');
 const itemNotFoundException =  require('../../Exceptions/ItemNotFoundException');
 const idIncrementException = require('../../Exceptions/IdIncrementDeniedException');
+const meetupServices = require('./Services');
 const appError = require('./../../Exceptions/AppError');
 const moment = require('moment');
 
@@ -76,6 +77,62 @@ exports.getOneMeetup = async function(meetup_id){
         let result = await meetups.findOne({where:{meetup_id:meetup_id}});
         if(result){
             return result;
+        }
+        else
+            throw new itemNotFoundException('Meetup not found');
+    }catch (e) {
+        console.log(e.message);
+        throw e;
+    }
+};
+
+exports.getInfoMeetup = async function(meetup_id){
+    try{
+        const query =
+                    `select 
+                        m."name" 
+                        ,m."date" 
+                        ,m."time" 
+                        ,m.city 
+                        ,m.description                         
+                    from meetups m
+                    where m.meetup_id = ${meetup_id}`;
+
+        let result = await meetups.sequelize.query(query);
+        if(result[0].length){
+            const {city, date, time, name, description } = result[0][0];
+            const temp = await meetupServices.weaterInfo(city,date,time);
+            return {name, city, date, time, description, temp};
+        }
+        else
+            throw new itemNotFoundException('Meetup not found');
+    }catch (e) {
+        console.log(e.message);
+        throw e;
+    }
+};
+
+exports.getConsumInfoMeetup = async function(meetup_id){
+    try{
+        const query =
+                    `select 
+                        m."name" 
+                        ,m."date" 
+                        ,m."time" 
+                        ,m.city 
+                        ,m.description 
+                        , count(g.user_id) guests 
+                    from meetups m 
+                    left join guests g on g.meetup_id = m.meetup_id 
+                    where m.meetup_id = ${meetup_id}
+                    group by m."name", m."date", m."time", m.city, m.description;`;
+
+        let result = await meetups.sequelize.query(query);
+        if(result[0].length){
+            const {city, date, time, guests, name, description } = result[0][0];
+            const temp = await meetupServices.weaterInfo(city,date,time);
+            const info = meetupServices.getMeeupInfo(guests, temp)
+            return {name, city, date, time, guests, description, info};
         }
         else
             throw new itemNotFoundException('Meetup not found');

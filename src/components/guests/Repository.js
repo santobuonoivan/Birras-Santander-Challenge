@@ -43,6 +43,18 @@ exports.createGuest = async function (meetup_id,user_id) {
     return result;
 };
 
+exports.checkInGuest = async function (meetup_id,user_id) {
+    try{
+
+        const meetup = await guests.update({checkin:true},{where:{meetup_id:meetup_id,user_id:user_id}});
+        if(meetup < 1){ throw new appError('error guest not found') };
+        return { message: 'guest delete successful' }
+    }catch (e) {
+        console.log({error: e});
+        throw new appError(`cant delete guest [${e.message}]`);
+    }
+};
+
 exports.deleteGuest = async function (meetup_id,user_id) {
     try{
         const meetup = await guests.destroy({where:{meetup_id:meetup_id,user_id:user_id}});

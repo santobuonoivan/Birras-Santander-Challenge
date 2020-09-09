@@ -3,15 +3,14 @@ const express = require('express');
 const router = express.Router();
 const cors = require('cors');
 const authentication = require('../../middleware/Authentication');
-
-//const authorization = require('./../../middleware/Authorization');
+const authorization = require('./../../middleware/Authorization');
 const {hasCreateUser, hasUpdateUser, hasDeleteUser } = require('./validator/UserValidator');
 
 const userController = require('./Controller');
 
-router.post('/',[cors(), authentication,/* hasCreateUser*/ ], userController.createUser);
-router.put('/:user_id',[cors(), authentication,/* hasUpdateUser*/ ], userController.updateUser);
-router.delete('/:user_id',[cors(), authentication,/* hasDeleteUser*/], userController.deleteUser);
-router.get('/',[cors(), authentication,], userController.getAllUser);
+router.post('/',[cors(), authentication /*, hasCreateUser*/,authorization('USERS', 'CREATE')], userController.createUser);
+router.put('/:user_id',[cors(), authentication/*, hasUpdateUser*/,authorization('USERS', 'UPDATE')], userController.updateUser);
+router.delete('/:user_id',[cors(), authentication/*, hasDeleteUser*/,authorization('USERS', 'DELETE')], userController.deleteUser);
+router.get('/',[cors(), authentication,authorization('USERS', 'GET_ALL')], userController.getAllUser);
 
 module.exports = router;

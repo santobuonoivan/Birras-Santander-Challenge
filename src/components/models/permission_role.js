@@ -1,25 +1,19 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('guests', {
-    'meetup_id': {
+  return sequelize.define('permission_role', {
+    'permission_id': {
       type: DataTypes.INTEGER,
       allowNull: false,
       comment: "null",
       primaryKey: true
     },
-    'user_id': {
+    'role_id': {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      comment: "null",
-      primaryKey: true
-    },
-    'checkin': {
-      type: DataTypes.BOOLEAN,
       allowNull: true,
       comment: "null"
     }
   }, {
-    tableName: 'guests'
+    tableName: 'permission_role'
   });
 };

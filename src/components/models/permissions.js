@@ -1,34 +1,30 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('users', {
-    'user_id': {
+  return sequelize.define('permissions', {
+    'id': {
       type: DataTypes.INTEGER,
       allowNull: false,
+      defaultValue: 'nextval(permissions_id_seq::regclass)',
       comment: "null",
       primaryKey: true
     },
-    'name': {
+    'title': {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
       comment: "null"
     },
-    'username': {
+    'module': {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
       comment: "null"
     },
-    'password': {
+    'action': {
       type: DataTypes.STRING,
-      allowNull: true,
-      comment: "null"
-    },
-    'email': {
-      type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
       comment: "null"
     }
   }, {
-    tableName: 'users'
+    tableName: 'permissions'
   });
 };

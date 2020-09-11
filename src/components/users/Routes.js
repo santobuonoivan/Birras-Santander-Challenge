@@ -8,9 +8,9 @@ const {hasCreateUser, hasUpdateUser, hasDeleteUser } = require('./validator/User
 
 const userController = require('./Controller');
 
+router.get('/',[cors(), authentication,authorization('USERS', 'GET_ALL')], userController.getAllUser);
 router.post('/',[cors(), authentication /*, hasCreateUser*/,authorization('USERS', 'CREATE')], userController.createUser);
 router.put('/:user_id',[cors(), authentication/*, hasUpdateUser*/,authorization('USERS', 'UPDATE')], userController.updateUser);
 router.delete('/:user_id',[cors(), authentication/*, hasDeleteUser*/,authorization('USERS', 'DELETE')], userController.deleteUser);
-router.get('/',[cors(), authentication,authorization('USERS', 'GET_ALL')], userController.getAllUser);
 
 module.exports = router;

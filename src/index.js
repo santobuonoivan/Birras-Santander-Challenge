@@ -8,8 +8,14 @@ const express = require('express');
 const morgan = require('morgan');
 /* CORS is a nodejs package for providing a Connect/Express middleware that can be used to enable CORS with various options. */
 const cors = require('cors');
+/* config public folder */
 const path = require('path');
 const publicPath = path.resolve(__dirname, './public');
+/* swagger */
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger.js');
+
+
 
 //Settings
 /* setting port config */
@@ -47,6 +53,7 @@ const guestsRouter = require('./components/guests/Routes');
 const auth = require('./components/auth/AuthRoutes');
 
 //Routes Urls
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec /*, { explorer: true }*/ ));
 app.use('/users', usersRouter);
 app.use('/meetups', meetupsRouter);
 app.use('/guests', guestsRouter);
@@ -56,8 +63,6 @@ app.use('/auth', auth);
 app.get('/', function(req, res) { res.send('Hello Santander Apirest') });
 
 //Server
-
-
 
 try {
     module.exports.app = app_process.listen(port, () => {

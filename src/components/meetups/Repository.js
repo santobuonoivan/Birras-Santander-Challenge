@@ -38,7 +38,7 @@ exports.updateMeetup = async function(meetup_id, meetup) {
 
     try {
         let result = await meetups.update(meetup, { where: { meetup_id: meetup_id } });
-        return { message: 'meetup update successful', status: 201 }
+        return { message: 'meetup update successful' }
     } catch (e) {
         console.log({ error: e });
         throw new appError('error meetup update');
@@ -49,7 +49,7 @@ exports.deleteMeetup = async function(meetup_id) {
     try {
         const meetup = await meetups.destroy({ where: { meetup_id: meetup_id } });
         if (meetup < 1) { throw new appError('error meetup no encontrado') };
-        return { message: 'meetup delete successful', status: 200 }
+        return { message: 'meetup delete successful' }
     } catch (e) {
         console.log({ error: e });
         throw new appError(`No se pudo eliminar el usuario [${e.message}]`);

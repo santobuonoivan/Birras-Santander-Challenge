@@ -1,9 +1,9 @@
 /**
  *  @swagger
- *  /meetups/{meetup_id}:
- *    put:
+ *  /guests/checkin/{meetup_id}/{user_id}:
+ *    post:
  *      tags:
- *          - meetups
+ *          - guests
  *      cosumes: 
  *        - application/json
  *      parameters:
@@ -19,44 +19,22 @@
  *          type: integer
  *          minimum: 1
  *          description: Meetup id.
- *        - in: body
- *          name: meetup
- *          description: The meetup to update.
- *          schema:
- *            type: object            
- *            properties:
- *              meetup_id:
- *                type: integer
- *                example: 1
- *              name:
- *                type: string
- *                example: Beer day
- *              city:
- *                type: string
- *                example: quilmes
- *              description:
- *                type: string
- *                example: Beer day
- *              date:
- *                type: string
- *                example: '09/12/2020'
- *                format: date
- *                pattern: 'DD/MM/YYYY'              
- *              time:
- *                type: string
- *                example: '20:00'
- *                format: time
- *                pattern: 'HH:mm'       
- *      description: Use to update a meetup
+ *        - in: path
+ *          name: user_id
+ *          required: true
+ *          type: integer
+ *          minimum: 1
+ *          description: User id.
+ *      description: Use to invite a new guest
  *      responses:
  *        '201':
- *          description: A update successful message
+ *          description: A checkin guest successful message
  *          schema:
  *            type: object
  *            properties:
  *              message:
  *                type: string
- *                example: meetup update successful
+ *                example: checkin guest successful
  *        '401':
  *          description: Token expired
  *          schema:
@@ -74,12 +52,11 @@
  *                type: string
  *                example: Bad Credentials
  *        '404':
- *          description: Ivalid meetup id
+ *          description: Ivalid meetup id or user id
  *          schema:
  *            type: object
  *            properties:
  *              error:
  *                type: string
- *                example: meetup not found
- *        
+ *                example: cant checkin guest [error guest not found]
  */

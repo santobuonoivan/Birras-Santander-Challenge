@@ -62,7 +62,7 @@ exports.findUserByUsername = async function(username) {
 
     let result;
     try {
-        result = await users.findOne({ where: { username: sequelize.where(sequelize.fn('LOWER', sequelize.col('username')), 'LIKE', '%' + username + '%') } });
+        result = await users.findOne({ where: { username: sequelize.where(sequelize.fn('LOWER', sequelize.col('username')), '=', username) } });
 
 
     } catch (e) {

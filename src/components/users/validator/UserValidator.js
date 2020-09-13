@@ -9,7 +9,7 @@ exports.hasCreateUser = async(req, res, next) => {
             email: Joi.string()
                 .email({ minDomainSegments: 1, tlds: { allow: ['com', 'net', 'mx', 'ar', 'es'] } })
                 .max(255).trim().lowercase({ force: true }).required().label('Email'),
-            username: Joi.string().trim().label('Nombre de usuario'),
+            username: Joi.string().required().trim().label('Nombre de usuario'),
             password: Joi.string().trim().regex(/^[\w]+(\w+)*$/).min(10).max(255).required().label('Contraseña'),
 
         });

@@ -19,12 +19,12 @@
  *          schema:
  *            type: object
  *            required:
- *              - userName
+ *              - username
  *              - password
  *              - name
  *              - email
  *            properties:
- *              userName:
+ *              username:
  *                type: string
  *              name:
  *                type: string

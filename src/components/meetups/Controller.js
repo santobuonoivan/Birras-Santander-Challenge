@@ -16,7 +16,7 @@ exports.createMeetup = async function(req, res, next) {
 exports.updateMeetup = async function(req, res, next) {
     try {
         let write = await meetupRepository.updateMeetup(req.params.meetup_id, req.body);
-        return res.status(201).json(write);
+        return res.status(200).json(write);
     } catch (e) {
         if (e instanceof require('../../Exceptions/AppError'))
             return res.status(e.status).json({ error: e.message });

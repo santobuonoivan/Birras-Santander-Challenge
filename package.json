@@ -29,7 +29,7 @@
     "scripts": {
         "dev": "nodemon src/index.js",
         "start": "node src/index.js",
-        "test": "mocha src/tests/**/*.js -b"
+        "test": "mocha src/tests/**/*.test.js -b"
     },
     "author": "Ivan Santobuono",
     "license": "ISC"

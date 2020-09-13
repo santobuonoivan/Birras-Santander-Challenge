@@ -1,7 +1,7 @@
 const request = require('supertest');
 const should = require('should');
 const { app } = require('./../../index.js');
-
+const { getUserCredentials } = require('./../utils');
 //==================== create new user API test ====================
 
 /**
@@ -10,10 +10,11 @@ const { app } = require('./../../index.js');
 describe('POST /users', function() {
 
     let token = null;
+    const { username, password } = getUserCredentials('ADMIN');
     before(function(done) {
         request(app)
             .post('/auth')
-            .send({ username: 'mecalux', password: '12345' })
+            .send({ username, password })
             .end(function(err, res) {
                 token = res.body.token;
                 console.log(token);
@@ -54,10 +55,11 @@ describe('POST /users', function() {
 describe('POST /users', function() {
 
     let token = null;
+    const { username, password } = getUserCredentials('ADMIN');
     before(function(done) {
         request(app)
             .post('/auth')
-            .send({ username: 'mecalux', password: '12345' })
+            .send({ username, password })
             .end(function(err, res) {
                 token = res.body.token;
                 console.log(token);
@@ -97,10 +99,11 @@ describe('POST /users', function() {
 describe('POST /users', function() {
 
     let token = null;
+    const { username, password } = getUserCredentials('ADMIN');
     before(function(done) {
         request(app)
             .post('/auth')
-            .send({ username: 'mecalux', password: '12345' })
+            .send({ username, password })
             .end(function(err, res) {
                 token = res.body.token;
                 console.log(token);
@@ -140,10 +143,11 @@ describe('POST /users', function() {
 describe('POST /users', function() {
 
     let token = null;
+    const { username, password } = getUserCredentials('ADMIN');
     before(function(done) {
         request(app)
             .post('/auth')
-            .send({ username: 'mecalux', password: '12345' })
+            .send({ username, password })
             .end(function(err, res) {
                 token = res.body.token;
                 console.log(token);
@@ -186,10 +190,11 @@ describe('POST /users', function() {
 describe('POST /users', function() {
 
     let token = null;
+    const { username, password } = getUserCredentials('ADMIN');
     before(function(done) {
         request(app)
             .post('/auth')
-            .send({ username: 'mecalux', password: '12345' })
+            .send({ username, password })
             .end(function(err, res) {
                 token = res.body.token;
                 console.log(token);
@@ -228,10 +233,11 @@ describe('POST /users', function() {
 describe('POST /users', function() {
 
     let token = null;
+    const { username, password } = getUserCredentials('ADMIN');
     before(function(done) {
         request(app)
             .post('/auth')
-            .send({ username: 'mecalux', password: '12345' })
+            .send({ username, password })
             .end(function(err, res) {
                 token = res.body.token;
                 console.log(token);
@@ -265,16 +271,17 @@ describe('POST /users', function() {
 });
 
 /**
- * Testing get all users endpoint with Unautorized  
+ * Testing create new user endpoint with Unautorized  
  */
 
 describe('POST /users', function() {
 
     let token = null;
+    const { username, password } = getUserCredentials('USUARIO');
     before(function(done) {
         request(app)
             .post('/auth')
-            .send({ username: 'mecalux2', password: '12345' })
+            .send({ username, password })
             .end(function(err, res) {
                 token = res.body.token;
                 console.log(token);
@@ -309,7 +316,7 @@ describe('POST /users', function() {
 });
 
 /**
- * Testing get all users endpoint with jwt malformed  
+ * Testing create new user endpoint with jwt malformed  
  */
 
 describe('POST /users', function() {
@@ -341,17 +348,24 @@ describe('POST /users', function() {
 
 
 /**
- * Testing get all users endpoint with Bad Credentials 
+ * Testing create new user endpoint with Bad Credentials 
  */
 
-describe('GET /users', function() {
+describe('POST /users', function() {
 
     let token = 'asdqw'
+    let newUserBody = {
+        username: "example1231241",
+        name: "example",
+        password: "example123456",
+        email: "example1231235123@example.com"
+    };
     it('respond with json containing Bad Credentials Exception data', function(done) {
         request(app)
-            .get('/users')
+            .post('/users')
             .set('Accept', 'application/json')
             .set('token', token)
+            .send(newUserBody)
             .expect('Content-Type', /json/)
             .end(function(err, res) {
                 if (err) {
@@ -366,18 +380,24 @@ describe('GET /users', function() {
 });
 
 /**
- * Testing get all users endpoint with token TokenExpiredError 
+ * Testing create new user endpoint with token TokenExpiredError 
  */
 
-describe('GET /users', function() {
+describe('POST /users', function() {
 
     let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImVtYWlsIjoiaXZhbkBpdmFuLmNvbSIsIm5hbWUiOiJQYWJsbyIsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoibWVjYWx1eCJ9LCJpYXQiOjE1OTk4NjA1NjUsImV4cCI6MTU5OTk0Njk2NX0.O93bXKszbJDoofKInbGsMSa7IDOmHpU126LndUs-48A';
-
+    let newUserBody = {
+        username: "example1231241",
+        name: "example",
+        password: "example123456",
+        email: "example1231235123@example.com"
+    };
     it('respond with json containing token expired Exception data', function(done) {
         request(app)
-            .get('/users')
+            .post('/users')
             .set('Accept', 'application/json')
             .set('token', token)
+            .send(newUserBody)
             .expect('Content-Type', /json/)
             .end(function(err, res) {
                 if (err) {

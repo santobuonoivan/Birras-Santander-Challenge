@@ -1,6 +1,7 @@
 const request = require('supertest');
 const should = require('should');
 const { app } = require('./../../index.js');
+const { getUserCredentials } = require('./../utils');
 
 //==================== get all users API test ====================
 
@@ -10,10 +11,11 @@ const { app } = require('./../../index.js');
 describe('GET /users', function() {
 
     let token = null;
+    const { username, password } = getUserCredentials('ADMIN');
     before(function(done) {
         request(app)
             .post('/auth')
-            .send({ username: 'mecalux', password: '12345' })
+            .send({ username, password })
             .end(function(err, res) {
                 token = res.body.token;
                 console.log(token);
@@ -49,10 +51,11 @@ describe('GET /users', function() {
 describe('GET /users', function() {
 
     let token = null;
+    const { username, password } = getUserCredentials('ADMIN');
     before(function(done) {
         request(app)
             .post('/auth')
-            .send({ username: 'mecalux2', password: '12345' })
+            .send({ username, password })
             .end(function(err, res) {
                 token = res.body.token;
                 console.log(token);

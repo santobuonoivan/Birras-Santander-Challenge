@@ -24,10 +24,7 @@
  *          description: The meetup to update.
  *          schema:
  *            type: object            
- *            properties:
- *              meetup_id:
- *                type: integer
- *                example: 1
+ *            properties:             
  *              name:
  *                type: string
  *                example: Beer day
@@ -49,7 +46,7 @@
  *                pattern: 'HH:mm'       
  *      description: Use to update a meetup
  *      responses:
- *        '201':
+ *        '200':
  *          description: A update successful message
  *          schema:
  *            type: object

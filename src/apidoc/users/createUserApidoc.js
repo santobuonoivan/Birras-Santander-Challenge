@@ -21,6 +21,8 @@
  *            required:
  *              - userName
  *              - password
+ *              - name
+ *              - email
  *            properties:
  *              userName:
  *                type: string

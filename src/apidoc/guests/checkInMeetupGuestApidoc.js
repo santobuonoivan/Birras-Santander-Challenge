@@ -1,7 +1,7 @@
 /**
  *  @swagger
- *  /guests/checkin/{meetup_id}/{user_id}:
- *    post:
+ *  /guests/check_in/{meetup_id}/{user_id}:
+ *    put:
  *      tags:
  *          - guests
  *      cosumes: 
@@ -27,7 +27,7 @@
  *          description: User id.
  *      description: Use to invite a new guest
  *      responses:
- *        '201':
+ *        '200':
  *          description: A checkin guest successful message
  *          schema:
  *            type: object

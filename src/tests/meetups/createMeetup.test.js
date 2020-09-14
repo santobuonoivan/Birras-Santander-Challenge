@@ -69,7 +69,7 @@ describe('POST /meetups', function() {
     };
     it('respond with json containing Bad Credentials Exception data', function(done) {
         request(app)
-            .get('/users')
+            .post('/meetups')
             .set('Accept', 'application/json')
             .set('token', token)
             .send(newMeetupBody)

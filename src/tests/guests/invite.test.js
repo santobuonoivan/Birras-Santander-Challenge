@@ -3,12 +3,12 @@ const should = require('should');
 const { app } = require('./../../index.js');
 const { getUserCredentials, getTokenExpired } = require('./../utils');
 
-//==================== update meetup API test ====================
+//==================== invite meetup API test ====================
 
 /**
- * Testing update meetup endpoint (Successful request)
+ * Testing invite meetup endpoint (Successful request)
  */
-describe('PUT /meetups/{meet_id}', function() {
+describe('POST /guests/invite/{meet_id}/{user_id}', function() {
 
     let token = null;
     const { username, password } = getUserCredentials('ADMIN');
@@ -22,77 +22,31 @@ describe('PUT /meetups/{meet_id}', function() {
                 done();
             });
     });
-    const newMeetupBody = {
-        date: "17/09/2020",
-        name: "Beer day",
-        time: "20:00",
-        city: "quilmes",
-        description: "Beer day"
-    };
 
-    it('respond with json containing a new meetup data', function(done) {
+
+    it('respond with json containing a invite  successful data', function(done) {
         request(app)
-            .put('/meetups/1')
+            .post('/guests/invite/1/3')
             .set('Accept', 'application/json')
             .set('token', token)
-            .send(newMeetupBody)
             .expect('Content-Type', /json/)
             .end(function(err, res) {
-                res.should.have.property('status', 200);
+                console.log(res.body);
+                res.should.have.property('status', 201);
                 res.should.be.json;
                 res.body.should.be.instanceof(Object);
-                res.body.should.have.property('message').and.be.instanceof(String);
+                res.body.should.have.property('meetup_id').and.be.instanceof(Number);
+                res.body.should.have.property('user_id').and.be.instanceof(Number);
+                res.body.should.have.property('checkin').and.be.instanceof(Boolean);
                 done();
             });
     });
 });
 
 /**
- * Testing update meetup endpoint ( Meetup id not found request)
+ * Testing invite meetup endpoint (Unautorized access request)
  */
-describe('PUT /meetups/{meet_id}', function() {
-
-    let token = null;
-    const { username, password } = getUserCredentials('ADMIN');
-    before(function(done) {
-        request(app)
-            .post('/auth')
-            .send({ username, password })
-            .end(function(err, res) {
-                token = res.body.token;
-                console.log(token);
-                done();
-            });
-    });
-    const newMeetupBody = {
-        date: "09/12/2020",
-        name: "Beer day",
-        time: "20:00",
-        city: "quilmes",
-        description: "Beer day"
-    };
-
-    it('respond with json containing a new meetup data', function(done) {
-        request(app)
-            .put('/meetups/999999')
-            .set('Accept', 'application/json')
-            .set('token', token)
-            .send(newMeetupBody)
-            .expect('Content-Type', /json/)
-            .end(function(err, res) {
-                res.should.have.property('status', 404);
-                res.should.be.json;
-                res.body.should.be.instanceof(Object);
-                res.body.should.have.property('error').and.be.instanceof(String);
-                done();
-            });
-    });
-});
-
-/**
- * Testing update meetup endpoint ( Unautorized access request)
- */
-describe('PUT /meetups/{meet_id}', function() {
+describe('POST /guests/invite/{meet_id}/{user_id}', function() {
 
     let token = null;
     const { username, password } = getUserCredentials('USUARIO');
@@ -106,23 +60,52 @@ describe('PUT /meetups/{meet_id}', function() {
                 done();
             });
     });
-    const newMeetupBody = {
-        date: "09/12/2020",
-        name: "Beer day",
-        time: "20:00",
-        city: "quilmes",
-        description: "Beer day"
-    };
 
-    it('respond with json containing a new meetup data', function(done) {
+
+    it('respond with json containing a Unautorized access data', function(done) {
         request(app)
-            .put('/meetups/1')
+            .post('/guests/invite/1/4')
             .set('Accept', 'application/json')
             .set('token', token)
-            .send(newMeetupBody)
             .expect('Content-Type', /json/)
             .end(function(err, res) {
+                console.log(res.body);
                 res.should.have.property('status', 401);
+                res.should.be.json;
+                res.body.should.be.instanceof(Object);
+                res.body.should.have.property('error', "Unauthorized access").and.be.instanceof(String);
+                done();
+            });
+    });
+});
+
+/**
+ * Testing invite meetup endpoint ( Meetup id not found request)
+ */
+describe('POST /guests/invite/{meet_id}/{user_id}', function() {
+
+    let token = null;
+    const { username, password } = getUserCredentials('ADMIN');
+    before(function(done) {
+        request(app)
+            .post('/auth')
+            .send({ username, password })
+            .end(function(err, res) {
+                token = res.body.token;
+                console.log(token);
+                done();
+            });
+    });
+
+
+    it('respond with json containing a ItemNotFound Exception data', function(done) {
+        request(app)
+            .post('/guests/invite/999999/4')
+            .set('Accept', 'application/json')
+            .set('token', token)
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+                res.should.have.property('status', 404);
                 res.should.be.json;
                 res.body.should.be.instanceof(Object);
                 res.body.should.have.property('error').and.be.instanceof(String);
@@ -132,25 +115,17 @@ describe('PUT /meetups/{meet_id}', function() {
 });
 
 /**
- * Testing update meetup endpoint ( Token expired request)
+ * Testing invite meetup endpoint ( Token expired request)
  */
-describe('PUT /meetups/{meet_id}', function() {
+describe('POST /guests/invite/{meet_id}/{user_id}', function() {
 
     let token = getTokenExpired();
-    const newMeetupBody = {
-        date: "09/12/2020",
-        name: "Beer day",
-        time: "20:00",
-        city: "quilmes",
-        description: "Beer day"
-    };
 
     it('respond with json containing a Token expired data', function(done) {
         request(app)
-            .put('/meetups/1')
+            .post('/guests/invite/1/4')
             .set('Accept', 'application/json')
             .set('token', token)
-            .send(newMeetupBody)
             .expect('Content-Type', /json/)
             .end(function(err, res) {
                 res.should.have.property('status', 401);
@@ -163,25 +138,17 @@ describe('PUT /meetups/{meet_id}', function() {
 });
 
 /**
- * Testing create a new meetups endpoint with Bad Credentials 
+ * Testing invite meetup endpoint with Bad Credentials 
  */
 
-describe('PUT /meetups/{meet_id}', function() {
+describe('POST /guests/invite/{meet_id}/{user_id}', function() {
 
     let token = 'asdqw';
-    const newMeetupBody = {
-        date: "09/12/2020",
-        name: "Beer day",
-        time: "20:00",
-        city: "quilmes",
-        description: "Beer day"
-    };
     it('respond with json containing Bad Credentials Exception data', function(done) {
         request(app)
-            .put('/meetups/1')
+            .post('/guests/invite/1/4')
             .set('Accept', 'application/json')
             .set('token', token)
-            .send(newMeetupBody)
             .expect('Content-Type', /json/)
             .end(function(err, res) {
                 if (err) {

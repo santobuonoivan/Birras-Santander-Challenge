@@ -35,7 +35,7 @@
  *              checkin:
  *                type: boolean
  *                allowEmptyValue: true
- *                example: null
+ *                example: false
  *        '401':
  *          description: Token expired
  *          schema:

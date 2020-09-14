@@ -31,7 +31,7 @@ exports.createGuest = async function(meetup_id, user_id) {
 
     while (cont < 3) {
         try {
-            result = await guests.create({ meetup_id, user_id });
+            result = await guests.create({ meetup_id, user_id, checkin: false });
             break;
         } catch (e) {
             ++cont;
@@ -45,7 +45,7 @@ exports.createGuest = async function(meetup_id, user_id) {
 exports.checkInGuest = async function(meetup_id, user_id) {
     try {
 
-        const meetup = await guests.update({ checkin: true }, { where: { meetup_id: meetup_id, user_id: user_id } });
+        const meetup = await guests.update({ checkin: true }, { where: { meetup_id: parseInt(meetup_id), user_id: parseInt(user_id) } });
         if (meetup < 1) { throw new itemNotFoundException('error guest not found') };
         return { message: 'checkin guest successful' }
     } catch (e) {

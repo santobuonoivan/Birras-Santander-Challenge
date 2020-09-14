@@ -118,4 +118,44 @@ describe('POST /meetups', function() {
     });
 });
 
-// TODO create test user and admin access
+/**
+ * Testing create a meetup endpoint ( Unautorized access request)
+ */
+describe('POST /meetups', function() {
+
+    let token = null;
+    const { username, password } = getUserCredentials('USUARIO');
+    before(function(done) {
+        request(app)
+            .post('/auth')
+            .send({ username, password })
+            .end(function(err, res) {
+                token = res.body.token;
+                console.log(token);
+                done();
+            });
+    });
+    const newMeetupBody = {
+        date: "09/12/2020",
+        name: "Beer day",
+        time: "20:00",
+        city: "quilmes",
+        description: "Beer day"
+    };
+
+    it('respond with json containing a Unatorized access data', function(done) {
+        request(app)
+            .post('/meetups')
+            .set('Accept', 'application/json')
+            .set('token', token)
+            .send(newMeetupBody)
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+                res.should.have.property('status', 401);
+                res.should.be.json;
+                res.body.should.be.instanceof(Object);
+                res.body.should.have.property('error').and.be.instanceof(String);
+                done();
+            });
+    });
+});

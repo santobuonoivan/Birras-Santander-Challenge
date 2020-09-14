@@ -50,7 +50,7 @@ exports.getOneMeetup = async function(req, res, next) {
     try {
         const { meetup_id } = req.params;
         let meetup = await meetupRepository.getOneMeetup(meetup_id);
-        return res.status(201).json(meetup);
+        return res.status(200).json(meetup);
     } catch (e) {
         if (e instanceof require('../../Exceptions/AppError'))
             return res.status(e.status).json({ error: e.message });
@@ -62,7 +62,7 @@ exports.getInfoMeetup = async function(req, res, next) {
     try {
         const { meetup_id } = req.params;
         let meetup = await meetupRepository.getInfoMeetup(meetup_id);
-        return res.status(201).json(meetup);
+        return res.status(200).json(meetup);
     } catch (e) {
         if (e instanceof require('../../Exceptions/AppError'))
             return res.status(e.status).json({ error: e.message });
@@ -74,7 +74,7 @@ exports.getConsumInfoMeetup = async function(req, res, next) {
     try {
         const { meetup_id } = req.params;
         let meetup = await meetupRepository.getConsumInfoMeetup(meetup_id);
-        return res.status(201).json(meetup);
+        return res.status(200).json(meetup);
     } catch (e) {
         if (e instanceof require('../../Exceptions/AppError'))
             return res.status(e.status).json({ error: e.message });

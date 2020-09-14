@@ -1,7 +1,7 @@
 const request = require('supertest');
 const should = require('should');
 const { app } = require('./../../index.js');
-const { getUserCredentials } = require('./../utils');
+const { getUserCredentials, getTokenExpired } = require('./../utils');
 //==================== create new user API test ====================
 
 /**
@@ -385,7 +385,7 @@ describe('POST /users', function() {
 
 describe('POST /users', function() {
 
-    let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImVtYWlsIjoiaXZhbkBpdmFuLmNvbSIsIm5hbWUiOiJQYWJsbyIsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoibWVjYWx1eCJ9LCJpYXQiOjE1OTk4NjA1NjUsImV4cCI6MTU5OTk0Njk2NX0.O93bXKszbJDoofKInbGsMSa7IDOmHpU126LndUs-48A';
+    let token = getTokenExpired()
     let newUserBody = {
         username: "example1231241",
         name: "example",

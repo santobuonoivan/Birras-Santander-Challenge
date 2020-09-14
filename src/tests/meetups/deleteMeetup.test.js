@@ -3,12 +3,14 @@ const should = require('should');
 const { app } = require('./../../index.js');
 const { getUserCredentials, getTokenExpired } = require('./../utils');
 
-//==================== update meetup API test ====================
+//==================== delete meetup API test ====================
 
 /**
- * Testing update meetup endpoint (Successful request)
+ * Testing delete meetup endpoint (Successful request)
  */
-describe('PUT /meetups/{meet_id}', function() {
+// TODO descomentar y armar un before create 1
+/*
+describe('DELETE /meetups/{meet_id}', function() {
 
     let token = null;
     const { username, password } = getUserCredentials('ADMIN');
@@ -22,20 +24,11 @@ describe('PUT /meetups/{meet_id}', function() {
                 done();
             });
     });
-    const newMeetupBody = {
-        date: "17/09/2020",
-        name: "Beer day",
-        time: "20:00",
-        city: "quilmes",
-        description: "Beer day"
-    };
-
     it('respond with json containing a new meetup data', function(done) {
         request(app)
-            .put('/meetups/1')
+            .delete('/meetups/3')
             .set('Accept', 'application/json')
             .set('token', token)
-            .send(newMeetupBody)
             .expect('Content-Type', /json/)
             .end(function(err, res) {
                 res.should.have.property('status', 200);
@@ -48,9 +41,9 @@ describe('PUT /meetups/{meet_id}', function() {
 });
 
 /**
- * Testing update meetup endpoint ( Meetup id not found request)
+ * Testing delete meetup endpoint ( Meetup id not found request)
  */
-describe('PUT /meetups/{meet_id}', function() {
+describe('DELETE /meetups/{meet_id}', function() {
 
     let token = null;
     const { username, password } = getUserCredentials('ADMIN');
@@ -64,20 +57,13 @@ describe('PUT /meetups/{meet_id}', function() {
                 done();
             });
     });
-    const newMeetupBody = {
-        date: "09/12/2020",
-        name: "Beer day",
-        time: "20:00",
-        city: "quilmes",
-        description: "Beer day"
-    };
+
 
     it('respond with json containing a new meetup data', function(done) {
         request(app)
-            .put('/meetups/999999')
+            .delete('/meetups/999999')
             .set('Accept', 'application/json')
             .set('token', token)
-            .send(newMeetupBody)
             .expect('Content-Type', /json/)
             .end(function(err, res) {
                 res.should.have.property('status', 404);
@@ -90,9 +76,9 @@ describe('PUT /meetups/{meet_id}', function() {
 });
 
 /**
- * Testing update meetup endpoint ( Unautorized access request)
+ * Testing delete meetup endpoint ( Unautorized access request)
  */
-describe('PUT /meetups/{meet_id}', function() {
+describe('DELETE /meetups/{meet_id}', function() {
 
     let token = null;
     const { username, password } = getUserCredentials('USUARIO');
@@ -106,20 +92,13 @@ describe('PUT /meetups/{meet_id}', function() {
                 done();
             });
     });
-    const newMeetupBody = {
-        date: "09/12/2020",
-        name: "Beer day",
-        time: "20:00",
-        city: "quilmes",
-        description: "Beer day"
-    };
+
 
     it('respond with json containing a new meetup data', function(done) {
         request(app)
-            .put('/meetups/1')
+            .delete('/meetups/3')
             .set('Accept', 'application/json')
             .set('token', token)
-            .send(newMeetupBody)
             .expect('Content-Type', /json/)
             .end(function(err, res) {
                 res.should.have.property('status', 401);
@@ -132,25 +111,18 @@ describe('PUT /meetups/{meet_id}', function() {
 });
 
 /**
- * Testing update meetup endpoint ( Token expired request)
+ * Testing delete meetup endpoint ( Token expired request)
  */
-describe('PUT /meetups/{meet_id}', function() {
+describe('DELETE /meetups/{meet_id}', function() {
 
     let token = getTokenExpired();
-    const newMeetupBody = {
-        date: "09/12/2020",
-        name: "Beer day",
-        time: "20:00",
-        city: "quilmes",
-        description: "Beer day"
-    };
+
 
     it('respond with json containing a new meetup data', function(done) {
         request(app)
-            .put('/meetups/1')
+            .delete('/meetups/3')
             .set('Accept', 'application/json')
             .set('token', token)
-            .send(newMeetupBody)
             .expect('Content-Type', /json/)
             .end(function(err, res) {
                 res.should.have.property('status', 401);

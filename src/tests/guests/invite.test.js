@@ -12,6 +12,7 @@ describe('POST /guests/invite/{meet_id}/{user_id}', function() {
 
     let token = null;
     const { username, password } = getUserCredentials('ADMIN');
+
     before(function(done) {
         request(app)
             .post('/auth')
@@ -23,6 +24,15 @@ describe('POST /guests/invite/{meet_id}/{user_id}', function() {
             });
     });
 
+    after(function(done) {
+        request(app)
+            .delete('/guests/1/3')
+            .set('token', token)
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+                done();
+            })
+    });
 
     it('respond with json containing a invite  successful data', function(done) {
         request(app)

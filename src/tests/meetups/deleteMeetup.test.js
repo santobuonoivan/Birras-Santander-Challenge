@@ -2,18 +2,21 @@ const request = require('supertest');
 const should = require('should');
 const { app } = require('./../../index.js');
 const { getUserCredentials, getTokenExpired } = require('./../utils');
+const moment = require('moment');
 
 //==================== delete meetup API test ====================
 
 /**
  * Testing delete meetup endpoint (Successful request)
  */
-// TODO descomentar y armar un before create 1
-/*
+
+
 describe('DELETE /meetups/{meet_id}', function() {
 
     let token = null;
+    let meetup_id = null;
     const { username, password } = getUserCredentials('ADMIN');
+
     before(function(done) {
         request(app)
             .post('/auth')
@@ -24,9 +27,31 @@ describe('DELETE /meetups/{meet_id}', function() {
                 done();
             });
     });
+    before(function(done) {
+        const date = moment().add(3, 'days').format('DD/MM/YYYY');
+        const newMeetupBody = {
+            date: date,
+            name: "Beer day",
+            time: "20:00",
+            city: "quilmes",
+            description: "Beer day"
+        };
+
+        request(app)
+            .post('/meetups')
+            .set('Accept', 'application/json')
+            .set('token', token)
+            .send(newMeetupBody)
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+                meetup_id = res.body.meetup_id;
+                done();
+            })
+
+    })
     it('respond with json containing a new meetup data', function(done) {
         request(app)
-            .delete('/meetups/3')
+            .delete(`/meetups/${meetup_id}`)
             .set('Accept', 'application/json')
             .set('token', token)
             .expect('Content-Type', /json/)

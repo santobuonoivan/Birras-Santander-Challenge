@@ -8,12 +8,13 @@ const { getUserCredentials, getTokenExpired } = require('./../utils');
 /**
  * Testing check_in meetup endpoint (Successful request)
  */
-// TODO descomentar
-/*
+
+
 describe('PUT /guests/check_in/{meet_id}/{user_id}', function() {
 
     let token = null;
     const { username, password } = getUserCredentials('ADMIN');
+
     before(function(done) {
         request(app)
             .post('/auth')
@@ -23,6 +24,29 @@ describe('PUT /guests/check_in/{meet_id}/{user_id}', function() {
                 console.log(token);
                 done();
             });
+    });
+
+    /** create guest before checkin */
+    before(function(done) {
+        request(app)
+            .post('/guests/invite/1/2')
+            .set('Accept', 'application/json')
+            .set('token', token)
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+                done();
+            });
+    })
+
+    /** delete guest after checkin */
+    after(function(done) {
+        request(app)
+            .delete('/guests/1/2')
+            .set('token', token)
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+                done();
+            })
     });
 
 

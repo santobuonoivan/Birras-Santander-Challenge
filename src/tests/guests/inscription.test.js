@@ -12,6 +12,7 @@ describe('POST /guests/inscription/{meet_id}', function() {
 
     let token = null;
     const { username, password } = getUserCredentials('ADMIN');
+
     before(function(done) {
         request(app)
             .post('/auth')
@@ -21,6 +22,16 @@ describe('POST /guests/inscription/{meet_id}', function() {
                 console.log(token);
                 done();
             });
+    });
+
+    after(function(done) {
+        request(app)
+            .delete('/guests/1/1')
+            .set('token', token)
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+                done();
+            })
     });
 
 
@@ -49,8 +60,9 @@ describe('POST /guests/inscription/{meet_id}', function() {
 describe('POST /guests/inscription/{meet_id}', function() {
 
     let token = null;
-    const { username, password } = getUserCredentials('USUARIO');
+    let tokenAdmin = null;
     before(function(done) {
+        const { username, password } = getUserCredentials('USUARIO');
         request(app)
             .post('/auth')
             .send({ username, password })
@@ -61,6 +73,27 @@ describe('POST /guests/inscription/{meet_id}', function() {
             });
     });
 
+    /** I need Admin token to be able to delete in the after */
+    before(function(done) {
+        const { username, password } = getUserCredentials('ADMIN');
+        request(app)
+            .post('/auth')
+            .send({ username, password })
+            .end(function(err, res) {
+                tokenAdmin = res.body.token;
+                console.log(token);
+                done();
+            });
+    });
+    after(function(done) {
+        request(app)
+            .delete('/guests/1/2')
+            .set('token', tokenAdmin)
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+                done();
+            })
+    });
 
     it('respond with json containing a inscription  successful data', function(done) {
         request(app)
@@ -98,7 +131,6 @@ describe('POST /guests/inscription/{meet_id}', function() {
                 done();
             });
     });
-
 
     it('respond with json containing a ItemNotFound Exception data', function(done) {
         request(app)

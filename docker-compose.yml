@@ -10,8 +10,9 @@ services:
     volumes:
       - .:/app
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - NODE_PORT=5001
+      - TOKEN_LIVE_TIME=24h
     links:
       - postgres
   postgres:
@@ -22,4 +23,6 @@ services:
        POSTGRES_PASSWORD: "1234"
     ports:
       - "5432:5432"
+    volumes:
+      - .:/var/lib/postgresql/data
 

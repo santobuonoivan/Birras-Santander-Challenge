@@ -1,10 +1,10 @@
-# Express/Node Service with Typescript and MariaDB
+# Express/Node Service with Postgres
 
 ### Installs
 
 With `package.json` and dependencies
 
-> run npm i
+> run `npm i`
 
 
 ### Build Project
@@ -24,7 +24,7 @@ With `package.json` and dependencies
 > `localhost:5432` you can change the port in `docker-compose.yml` file `<host-port>:5432`
 
 ### Ducument API
-`url-host[:port]`/api-docs/  default is localhost:5001/api-docs
+`url-host[:port]`/api-docs/  default is `localhost:5001/api-docs`
 
 ### Tests
 you need to use `docker-compose up` and then `docker stop birras_app` to be able to use the databases in the tests
